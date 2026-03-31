@@ -36,6 +36,15 @@ body {
   text-align: center;
 }
 
+.hero h1 {
+  font-size: 50px;
+}
+
+.hero p {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
 /* BOTÓN */
 .btn {
   background: linear-gradient(45deg, #ff416c, #ff4b2b);
@@ -48,7 +57,7 @@ body {
   margin-top: 10px;
 }
 
-/* SECCIÓN */
+/* SECCIONES */
 .section {
   padding: 80px 20px;
   text-align: center;
@@ -68,6 +77,11 @@ body {
   border-radius: 15px;
   background: rgba(255,255,255,0.05);
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.item:hover {
+  transform: scale(1.05);
 }
 
 .item.selected {
@@ -81,9 +95,26 @@ body {
   text-align: left;
 }
 
+/* EXTRAS PRO */
+.extras-box {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.extra-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* TOTAL */
 .total {
-  color: #00ff99;
   font-size: 20px;
+  color: #00ff99;
+  margin: 10px 0;
 }
 
 /* CARRITO */
@@ -96,9 +127,8 @@ body {
 
 /* HISTORIAL */
 .historial {
-  margin-top: 40px;
+  margin-top: 30px;
 }
-
 </style>
 </head>
 
@@ -146,10 +176,8 @@ body {
     <a class="btn" onclick="agregarCarrito()">Agregar al carrito</a>
     <a class="btn" onclick="enviarPedido()">Enviar pedido</a>
 
-    <!-- CARRITO -->
     <div class="carrito" id="carrito"></div>
 
-    <!-- HISTORIAL -->
     <div class="historial">
       <h3>Historial</h3>
       <div id="historial"></div>
@@ -165,10 +193,34 @@ let producto = "";
 let precioBase = 0;
 
 let extrasData = {
-  "Hamburguesa": [{nombre:"Queso",precio:20},{nombre:"Bacon",precio:30}],
-  "Pizza": [{nombre:"Extra queso",precio:25}],
-  "Tacos": [{nombre:"Guacamole",precio:20}],
-  "Alitas": [{nombre:"BBQ",precio:15}]
+  "Hamburguesa": [
+    {nombre:"Queso extra", precio:20},
+    {nombre:"Bacon", precio:30},
+    {nombre:"Aguacate", precio:25},
+    {nombre:"Doble carne", precio:50},
+    {nombre:"Papas", precio:40},
+    {nombre:"Refresco", precio:25}
+  ],
+  "Pizza": [
+    {nombre:"Extra queso", precio:25},
+    {nombre:"Pepperoni", precio:35},
+    {nombre:"Champiñones", precio:20},
+    {nombre:"Orilla rellena", precio:40},
+    {nombre:"Refresco", precio:25}
+  ],
+  "Tacos": [
+    {nombre:"Queso", precio:15},
+    {nombre:"Guacamole", precio:20},
+    {nombre:"Doble tortilla", precio:10},
+    {nombre:"Refresco", precio:25}
+  ],
+  "Alitas": [
+    {nombre:"BBQ", precio:15},
+    {nombre:"Buffalo", precio:15},
+    {nombre:"Extra salsa", precio:10},
+    {nombre:"Papas", precio:40},
+    {nombre:"Refresco", precio:25}
+  ]
 };
 
 function seleccionar(el,nombre,precio){
@@ -181,10 +233,21 @@ function seleccionar(el,nombre,precio){
 }
 
 function mostrarExtras(nombre){
-  let cont=document.getElementById("extras");
-  cont.innerHTML="<h3>Extras</h3>";
-  extrasData[nombre].forEach(e=>{
-    cont.innerHTML+=`<label><input type="checkbox" data-precio="${e.precio}" value="${e.nombre}" onchange="calcular()"> ${e.nombre} (+${e.precio})</label><br>`;
+  let cont = document.getElementById("extras");
+  cont.innerHTML = "<h3>Extras</h3><div class='extras-box'></div>";
+
+  let box = cont.querySelector(".extras-box");
+
+  extrasData[nombre].forEach(e => {
+    box.innerHTML += `
+      <label class="extra-item">
+        <span>
+          <input type="checkbox" value="${e.nombre}" data-precio="${e.precio}" onchange="calcular()">
+          ${e.nombre}
+        </span>
+        <span>+$${e.precio}</span>
+      </label>
+    `;
   });
 }
 
@@ -192,7 +255,9 @@ function calcular(){
   let cantidad=document.getElementById("cantidad").value;
   let extras=document.querySelectorAll('#extras input:checked');
   let total=precioBase*cantidad;
+
   extras.forEach(e=> total+=parseInt(e.dataset.precio));
+
   document.getElementById("total").innerText="Total: $"+total;
 }
 
@@ -215,11 +280,10 @@ function toggleDireccion(){
 }
 
 function enviarPedido(){
-  let mensaje="Pedido:%0A";
+  let mensaje="🔥 Pedido EL PICHON 🔥%0A";
   carrito.forEach(p=> mensaje+=p+"%0A");
 
   window.open("https://wa.me/5215512345678?text="+mensaje);
-
   guardarHistorial(mensaje);
 }
 
