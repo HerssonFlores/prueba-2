@@ -15,28 +15,39 @@ body {
   color: white;
 }
 
+/* NAV */
 .nav {
   position: fixed;
   width: 100%;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.6);
   padding: 15px 30px;
+  z-index: 1000;
 }
 
+/* HERO */
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-              url('https://picsum.photos/1600/900?food');
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
+              url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');
   background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 .hero h1 { font-size: 50px; }
 .hero p { font-size: 20px; opacity: 0.8; }
 
+/* BOTÓN */
 .btn {
   background: linear-gradient(45deg, #ff416c, #ff4b2b);
   padding: 12px 20px;
@@ -46,13 +57,21 @@ body {
   cursor: pointer;
   display: inline-block;
   margin-top: 10px;
+  transition: 0.3s;
 }
 
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,65,108,0.6);
+}
+
+/* SECCIÓN */
 .section {
   padding: 80px 20px;
   text-align: center;
 }
 
+/* MENU */
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -71,43 +90,44 @@ body {
 
 .item:hover { transform: scale(1.05); }
 
-.item.selected { border: 2px solid #ff416c; }
+.item.selected {
+  border: 2px solid #ff416c;
+  box-shadow: 0 0 15px rgba(255,65,108,0.5);
+}
 
+/* FORM */
 .form {
   max-width: 400px;
   margin: auto;
   text-align: left;
 }
 
+/* EXTRAS */
 .extras-box {
   background: rgba(255,255,255,0.05);
   padding: 10px;
   border-radius: 10px;
-  margin-top: 10px;
 }
 
 .extra-item {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;
-  font-size: 14px;
 }
 
+/* TOTAL */
 .total {
   font-size: 20px;
   color: #00ff99;
-  margin: 10px 0;
 }
 
+/* CARRITO */
 .carrito {
   background: rgba(255,255,255,0.05);
   padding: 15px;
   border-radius: 10px;
   margin-top: 20px;
-}
-
-.historial {
-  margin-top: 30px;
+  animation: fadeIn 0.5s;
 }
 </style>
 </head>
@@ -158,14 +178,11 @@ body {
 
     <div class="carrito" id="carrito"></div>
 
-    <div class="historial">
-      <h3>Historial</h3>
-      <div id="historial"></div>
-    </div>
-
   </div>
-
 </section>
+
+<!-- SONIDO -->
+<audio id="sonido" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
 
 <script>
 let carrito = [];
@@ -242,6 +259,8 @@ function calcular(){
 }
 
 function agregarCarrito(){
+  document.getElementById("sonido").play();
+
   let total=document.getElementById("total").innerText;
   carrito.push(producto+" - "+total);
   mostrarCarrito();
@@ -264,24 +283,7 @@ function enviarPedido(){
   carrito.forEach(p=> mensaje+=p+"%0A");
 
   window.open("https://wa.me/5215528716239?text="+mensaje);
-  guardarHistorial(mensaje);
 }
-
-function guardarHistorial(pedido){
-  let hist=JSON.parse(localStorage.getItem("historial"))||[];
-  hist.push(pedido);
-  localStorage.setItem("historial",JSON.stringify(hist));
-  mostrarHistorial();
-}
-
-function mostrarHistorial(){
-  let hist=JSON.parse(localStorage.getItem("historial"))||[];
-  let cont=document.getElementById("historial");
-  cont.innerHTML="";
-  hist.forEach(p=> cont.innerHTML+="<p>"+decodeURIComponent(p)+"</p>");
-}
-
-mostrarHistorial();
 </script>
 
 </body>
