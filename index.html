@@ -15,7 +15,6 @@ body {
   color: white;
 }
 
-/* NAV */
 .nav {
   position: fixed;
   width: 100%;
@@ -24,7 +23,6 @@ body {
   padding: 15px 30px;
 }
 
-/* HERO */
 .hero {
   height: 100vh;
   background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
@@ -36,16 +34,9 @@ body {
   text-align: center;
 }
 
-.hero h1 {
-  font-size: 50px;
-}
+.hero h1 { font-size: 50px; }
+.hero p { font-size: 20px; opacity: 0.8; }
 
-.hero p {
-  font-size: 20px;
-  opacity: 0.8;
-}
-
-/* BOTÓN */
 .btn {
   background: linear-gradient(45deg, #ff416c, #ff4b2b);
   padding: 12px 20px;
@@ -57,13 +48,11 @@ body {
   margin-top: 10px;
 }
 
-/* SECCIONES */
 .section {
   padding: 80px 20px;
   text-align: center;
 }
 
-/* MENU */
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -80,22 +69,16 @@ body {
   transition: 0.3s;
 }
 
-.item:hover {
-  transform: scale(1.05);
-}
+.item:hover { transform: scale(1.05); }
 
-.item.selected {
-  border: 2px solid #ff416c;
-}
+.item.selected { border: 2px solid #ff416c; }
 
-/* FORM */
 .form {
   max-width: 400px;
   margin: auto;
   text-align: left;
 }
 
-/* EXTRAS PRO */
 .extras-box {
   background: rgba(255,255,255,0.05);
   padding: 10px;
@@ -110,14 +93,12 @@ body {
   font-size: 14px;
 }
 
-/* TOTAL */
 .total {
   font-size: 20px;
   color: #00ff99;
   margin: 10px 0;
 }
 
-/* CARRITO */
 .carrito {
   background: rgba(255,255,255,0.05);
   padding: 15px;
@@ -125,7 +106,6 @@ body {
   margin-top: 20px;
 }
 
-/* HISTORIAL */
 .historial {
   margin-top: 30px;
 }
@@ -283,7 +263,7 @@ function enviarPedido(){
   let mensaje="🔥 Pedido EL PICHON 🔥%0A";
   carrito.forEach(p=> mensaje+=p+"%0A");
 
-  window.open("https://wa.me/5215512345678?text="+mensaje);
+  window.open("https://wa.me/5215528716239?text="+mensaje);
   guardarHistorial(mensaje);
 }
 
